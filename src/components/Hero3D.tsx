@@ -1,45 +1,69 @@
+import { motion } from "framer-motion";
+import toolDrill from "@/assets/tool-drill.png";
+
 const Hero3D = () => {
   return (
-    <div className="relative w-64 h-64 md:w-96 md:h-96" style={{ perspective: "1000px" }}>
-      <div
-        className="w-full h-full animate-spin-slow"
+    <div className="relative w-72 h-72 md:w-[450px] md:h-[450px]" style={{ perspective: "1200px" }}>
+      {/* Outer glow ring */}
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{ background: "radial-gradient(circle, hsl(30 100% 50% / 0.15), transparent 70%)" }}
+        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Rotating rings */}
+      <motion.div
+        className="absolute inset-4 rounded-full border border-primary/20"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary/60" />
+      </motion.div>
+
+      <motion.div
+        className="absolute inset-12 rounded-full border border-primary/10"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+      >
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-primary/40" />
+      </motion.div>
+
+      {/* Center tool image with 3D rotation */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        animate={{
+          rotateY: [0, 15, 0, -15, 0],
+          rotateX: [0, -5, 0, 5, 0],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* 3D Drill / Machine shape using CSS */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative">
-            {/* Main body */}
-            <div
-              className="w-32 h-48 md:w-48 md:h-64 rounded-lg bg-secondary border border-border"
-              style={{
-                background: "linear-gradient(135deg, hsl(0 0% 14%), hsl(0 0% 10%))",
-                boxShadow: "0 0 60px hsl(30 100% 50% / 0.1), inset 0 1px 0 hsl(0 0% 100% / 0.05)",
-                transform: "rotateX(10deg)",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              {/* Chuck */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-12 md:w-12 md:h-16 bg-muted rounded-t-full border border-border" />
-              {/* Drill bit */}
-              <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-2 h-10 md:w-3 md:h-12 rounded-t-full" style={{ background: "var(--gradient-orange)" }} />
-              {/* Handle */}
-              <div className="absolute top-1/3 -right-4 md:-right-6 w-10 h-20 md:w-14 md:h-28 bg-secondary rounded-r-xl border border-border" style={{ boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05)" }}>
-                {/* Trigger */}
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-4 h-6 md:w-5 md:h-8 bg-primary/20 rounded-sm border border-primary/30" />
-              </div>
-              {/* Brand mark */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-16 md:w-20 h-1 rounded-full" style={{ background: "var(--gradient-orange)" }} />
-              {/* Speed dial */}
-              <div className="absolute top-4 left-4 w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-primary/40 flex items-center justify-center">
-                <div className="w-1 h-3 bg-primary rounded-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <motion.img
+          src={toolDrill}
+          alt="Industrial Drill"
+          className="w-48 h-48 md:w-72 md:h-72 object-contain drop-shadow-[0_0_60px_hsl(30_100%_50%/0.3)]"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
 
-      {/* Glow ring */}
-      <div className="absolute inset-0 rounded-full opacity-20 blur-3xl" style={{ background: "radial-gradient(circle, hsl(30 100% 50% / 0.3), transparent 70%)" }} />
+      {/* Floating particles around */}
+      {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+        <motion.div
+          key={angle}
+          className="absolute w-1.5 h-1.5 rounded-full bg-primary/50"
+          style={{
+            top: `${50 + 42 * Math.sin((angle * Math.PI) / 180)}%`,
+            left: `${50 + 42 * Math.cos((angle * Math.PI) / 180)}%`,
+          }}
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [0.3, 0.8, 0.3],
+          }}
+          transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, ease: "easeInOut" }}
+        />
+      ))}
     </div>
   );
 };
