@@ -223,6 +223,12 @@ This platform is more than a rental application — it is a **complete business 
 
 It demonstrates strong capabilities in:
 - Full-stack development
+
+- ## Live Demo
+
+https://lift-and-shift.vercel.app/
+
+---
 - Business model implementation
 - Real-world problem solving
 - Scalable system design
